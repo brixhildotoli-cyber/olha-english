@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Olha Kulinich — English Lessons</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>"/>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#FFF5F9}
+.loading{display:flex;align-items:center;justify-content:center;height:100vh;font-size:14px;color:#D4537E}
+/* APP */
+.app{display:flex;height:100vh;min-height:640px;background:#FFF5F9;overflow:hidden}
+.sidebar{width:204px;background:#FFE4F0;border-right:1px solid #FFB3D1;display:flex;flex-direction:column;flex-shrink:0}
+.logo{padding:18px 14px 14px;border-bottom:1px solid #FFB3D1}
+.logo-title{font-size:13px;font-weight:700;color:#72243E;letter-spacing:-.01em}
+.logo-sub{font-size:10px;color:#D4537E;margin-top:3px;font-weight:500;text-transform:uppercase;letter-spacing:.06em}
+.nav-item{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;font-size:13px;color:#993556;border-left:3px solid transparent;transition:all .12s}
+.nav-item:hover{background:#FFD6E7;color:#72243E}
+.nav-item.active{color:#72243E;border-left-color:#D4537E;background:#FFD6E7;font-weight:600}
+.main{flex:1;overflow-y:auto;padding:20px;background:#FFF5F9}
+.page{display:none}.page.active{display:block}
+.page-title{font-size:17px;font-weight:600;color:#72243E;margin-bottom:18px}
+.card{background:#fff;border:1px solid #FFD6E7;border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:20px;border:1px solid #FFB3D1;background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:#993556;transition:all .12s;white-space:nowrap}
+.btn:hover{background:#FFE4F0;border-color:#FF80B3}
+.btn-primary{background:#D4537E;color:#fff;border-color:#D4537E}.btn-primary:hover{background:#993556}
+.btn-sm{padding:4px 9px;font-size:11px}
+.btn-danger{color:#993556;border-color:#FFB3D1}.btn-danger:hover{background:#FFE4F0}
+input,select{width:100%;padding:7px 10px;border:1px solid #FFB3D1;border-radius:20px;background:#fff;color:#72243E;font-size:13px;font-family:inherit}
+input:focus,select:focus{outline:none;border-color:#D4537E;box-shadow:0 0 0 3px #FFE4F0}
+label{font-size:11px;color:#993556;display:block;margin-bottom:3px;margin-top:10px;font-weight:500}
+label:first-child{margin-top:0}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.stat-card{background:#fff;border:1px solid #FFD6E7;border-radius:14px;padding:12px;text-align:center}
+.stat-label{font-size:11px;color:#993556}.stat-value{font-size:24px;font-weight:600;color:#D4537E}
+.table{width:100%;border-collapse:collapse;font-size:12px}
+.table th{text-align:left;padding:8px 12px;font-size:10px;font-weight:600;color:#993556;border-bottom:1px solid #FFD6E7;background:#FFF5F9;text-transform:uppercase;letter-spacing:.04em}
+.table td{padding:8px 12px;border-bottom:1px solid #FFE4F0;color:#72243E;vertical-align:middle}
+.table tr:last-child td{border-bottom:none}.table tr:hover td{background:#FFF5F9}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-ok{background:#FFE4F0;color:#72243E}.badge-low{background:#FAEEDA;color:#854F0B}.badge-zero{background:#FCEBEB;color:#A32D2D}.badge-neg{background:#7F1D1D;color:#FCA5A5}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(114,36,62,.35);z-index:200;align-items:flex-start;justify-content:center;padding-top:30px}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:20px;padding:22px;width:460px;max-width:93vw;border:1px solid #FFB3D1;max-height:82vh;overflow-y:auto}
+.modal-title{font-size:15px;font-weight:600;margin-bottom:14px;color:#72243E}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;background:#FFD6E7;color:#72243E;flex-shrink:0;border:1px solid #FFB3D1}
+.flex{display:flex;align-items:center;gap:8px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.empty{text-align:center;padding:28px;color:#D4537E;font-size:12px}
+.toggle-row{display:flex;border:1px solid #FFB3D1;border-radius:20px;overflow:hidden;margin-bottom:12px;background:#FFF5F9}
+.toggle-opt{flex:1;padding:7px;text-align:center;font-size:12px;font-weight:500;color:#993556;cursor:pointer;transition:all .12s}
+.toggle-opt.active{background:#D4537E;color:#fff}
+.serie-box{background:#FFF5F9;border:1px dashed #FFB3D1;border-radius:12px;padding:14px;margin-top:10px}
+.day-checkboxes{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.day-cb{padding:4px 10px;border:1px solid #FFB3D1;border-radius:20px;cursor:pointer;font-size:12px;color:#993556;background:#fff;user-select:none}
+.day-cb.checked{background:#D4537E;color:#fff;border-color:#D4537E}
+.week-nav{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.week-nav-btn{padding:5px 12px;border-radius:20px;border:1px solid #FFB3D1;background:#fff;cursor:pointer;font-size:12px;color:#993556}
+.week-nav-btn:hover{background:#FFE4F0}
+.week-label{font-size:13px;font-weight:600;flex:1;text-align:center;color:#72243E}
+.week-grid{display:grid;grid-template-columns:46px repeat(7,1fr);border:1px solid #FFD6E7;border-radius:12px;overflow:hidden;min-width:520px}
+.wg-header{background:#FFE4F0;border-bottom:1px solid #FFD6E7;padding:7px 3px;text-align:center;font-size:11px;font-weight:600;color:#72243E}
+.wg-hour-label{background:#FFF5F9;border-right:1px solid #FFE4F0;border-bottom:1px solid #FFE4F0;padding:0 4px;display:flex;align-items:flex-start;justify-content:flex-end;font-size:10px;color:#D4537E;font-weight:500;padding-top:3px;height:48px}
+.wg-cell{border-right:1px solid #FFE4F0;border-bottom:1px solid #FFE4F0;height:48px;padding:2px}.wg-cell:last-child{border-right:none}
+.today-col{background:#FFF0F5}
+.wg-lesson{border-radius:5px;padding:2px 5px;font-size:10px;font-weight:600;height:100%;display:flex;flex-direction:column;justify-content:center;cursor:pointer;overflow:hidden;border-left:3px solid transparent}
+.wg-lesson.scheduled{background:#FFE4F0;border-left-color:#D4537E;color:#72243E}.wg-lesson.scheduled:hover{background:#FFD6E7}
+.wg-lesson.done{background:#EAF3DE;border-left-color:#3B6D11;color:#27500A}.wg-lesson.done:hover{background:#C0DD97}
+.wg-lesson.missed{background:#FFF9E6;border-left-color:#BA7517;color:#633806}.wg-lesson.missed:hover{background:#FAC775}
+.wg-lesson.missed_charged{background:#FCEBEB;border-left-color:#A32D2D;color:#791F1F}.wg-lesson.missed_charged:hover{background:#F7C1C1}
+.status-option{display:flex;align-items:flex-start;gap:12px;padding:12px;border-radius:12px;border:1px solid #FFD6E7;cursor:pointer;transition:all .12s;margin-bottom:10px}
+.status-option:hover{border-color:#FFB3D1;background:#FFF5F9}
+.so-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:1px}
+.so-title{font-size:13px;font-weight:600}.so-desc{font-size:11px;color:#993556;margin-top:2px}
+/* PORTAL */
+.portal{min-height:100vh;background:#FFF0F5}
+.p-topbar{background:#fff;border-bottom:1px solid #FFD6E7;padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between}
+.p-brand{display:flex;align-items:center;gap:10px}
+.p-init{width:34px;height:34px;border-radius:50%;background:#FFE4F0;border:1px solid #FFB3D1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#72243E}
+.p-name{font-size:14px;font-weight:700;color:#72243E}
+.p-tag{font-size:10px;color:#D4537E;margin-top:1px}
+.p-hero{background:linear-gradient(135deg,#FFE4F0,#FFD6E7,#FFBDD8);padding:32px 24px 28px;border-bottom:1px solid #FFB3D1}
+.p-greeting{font-size:11px;font-weight:600;color:#D4537E;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.p-hname{font-size:28px;font-weight:700;color:#72243E;margin-bottom:4px}
+.p-hsub{font-size:13px;color:#993556;font-style:italic}
+.p-credits-row{display:flex;gap:10px;margin-top:20px}
+.p-credit-box{background:#fff;border-radius:16px;border:1px solid #FFD6E7;padding:14px 18px;flex:2}
+.p-cnum{font-size:38px;font-weight:700;color:#D4537E;line-height:1}
+.p-clbl{font-size:11px;color:#993556;margin-top:4px}
+.p-cnote{font-size:10px;color:#FFB3D1;margin-top:2px}
+.p-cbar{height:5px;background:#FFE4F0;border-radius:3px;margin-top:10px;overflow:hidden}
+.p-cfill{height:100%;background:linear-gradient(90deg,#D4537E,#FF80B3);border-radius:3px}
+.p-mini{background:#fff;border-radius:16px;border:1px solid #FFD6E7;padding:12px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.p-mnum{font-size:24px;font-weight:700;line-height:1}
+.p-mlbl{font-size:10px;color:#993556;margin-top:4px}
+.p-body{padding:20px 24px;max-width:680px}
+.p-stitle{font-size:10px;font-weight:700;color:#D4537E;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.p-lcard{background:#fff;border:1px solid #FFD6E7;border-radius:16px;overflow:hidden;margin-bottom:14px}
+.p-lrow{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #FFE4F0}
+.p-lrow:last-child{border-bottom:none}
+.p-ldate{font-size:14px;font-weight:600;color:#72243E}
+.p-ltime{font-size:12px;color:#D4537E;margin-top:2px}
+.p-join{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#D4537E;color:#fff;border-radius:20px;text-decoration:none;font-size:12px;font-weight:600}
+.p-join:hover{background:#993556}
+.p-hrow{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid #FFE4F0}
+.p-hrow:last-child{border-bottom:none}
+.pill{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.p-empty{padding:24px;text-align:center;color:#D4537E;font-size:13px;background:#fff;border:1px solid #FFD6E7;border-radius:16px;font-style:italic;margin-bottom:14px}
+.p-sgrid{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:#fff;border:1px solid #FFD6E7;border-radius:16px;padding:18px 22px;margin-bottom:14px}
+.p-brow{margin-bottom:10px}
+.p-blabels{display:flex;justify-content:space-between;font-size:12px;font-weight:500;margin-bottom:4px}
+.p-btrack{height:8px;background:#FFE4F0;border-radius:4px;overflow:hidden}
+.p-bfill{height:100%;border-radius:4px}
+.p-footer{padding:20px 24px;text-align:center;font-size:11px;color:#D4537E;border-top:1px solid #FFD6E7;background:#fff;margin-top:8px}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading">Loading...</div></div>
+
+<script>
+const URL = 'https://xerrlmmgpqcurymdeuwt.supabase.co'
+const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhlcnJsbW1ncHFjdXJ5bWRldXd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2Nzk3MTYsImV4cCI6MjA5MTI1NTcxNn0.1Rv1L3cuqmqYkCJOZNw3uoMSE3ocgKn4Q6K1XSti64c'
+const H = {'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'}
+
+async function sbFetch(path, method='GET', body=null){
+  const r = await fetch(URL+path, {method, headers:H, body:body?JSON.stringify(body):null})
+  if(!r.ok){ const t=await r.text(); throw new Error(t) }
+  if(r.status===204) return null
+  return r.json()
+}
+
+// ── DB helpers ────────────────────────────────────────
+const getStudents = () => sbFetch('/rest/v1/students?select=*&order=name')
+const getStudent = id => sbFetch('/rest/v1/students?select=*&id=eq.'+id).then(d=>d[0])
+const createStudent = p => sbFetch('/rest/v1/students','POST',p).then(d=>Array.isArray(d)?d[0]:d)
+const updateStudentCredits = (id,credits) => sbFetch('/rest/v1/students?id=eq.'+id,'PATCH',{credits,last_credit_update:new Date().toISOString()})
+const deleteStudent = id => sbFetch('/rest/v1/students?id=eq.'+id,'DELETE')
+const getLessons = () => sbFetch('/rest/v1/lessons?select=*&order=date,time')
+const getLessonsByStudent = sid => sbFetch('/rest/v1/lessons?select=*&student_id=eq.'+sid+'&order=date,time')
+const createLesson = p => sbFetch('/rest/v1/lessons','POST',p).then(d=>Array.isArray(d)?d[0]:d)
+const createLessons = rows => sbFetch('/rest/v1/lessons','POST',rows)
+const updateLessonStatus = async (id,status,sid,delta) => {
+  await sbFetch('/rest/v1/lessons?id=eq.'+id,'PATCH',{status})
+  if(delta!==0) await sbFetch('/rest/v1/rpc/adjust_credits','POST',{p_student_id:sid,p_delta:delta})
+}
+const deleteLesson = id => sbFetch('/rest/v1/lessons?id=eq.'+id,'DELETE')
+
+// ── Auth ──────────────────────────────────────────────
+var APP_PASSWORD = 'olha2024'
+
+// ── State ─────────────────────────────────────────────
+let students=[],lessons=[],calOff=0,creditsId=null,lessonId=null,viewId=null,mode='single',days=[]
+const STATUS={scheduled:{label:'Scheduled',color:'#D4537E',bg:'#FFE4F0'},done:{label:'Completed',color:'#3B6D11',bg:'#EAF3DE'},missed:{label:'Not done',color:'#BA7517',bg:'#FFF9E6'},missed_charged:{label:'Student absent',color:'#A32D2D',bg:'#FCEBEB'},trial:{label:'Free trial',color:'#6B21A8',bg:'#F3E8FF'}}
+const HOURS=Array.from({length:18},(_,i)=>i+6)
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+const today=()=>new Date().toISOString().slice(0,10)
+const fmt=d=>{if(!d)return'';const[y,m,day]=d.split('-');return`${day}/${m}/${y}`}
+const fmtLong=d=>new Date(d+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})
+const fmtDT=ts=>ts?new Date(ts).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):null
+const badgeCls=n=>n>3?'badge-ok':n>0?'badge-low':n===0?'badge-zero':'badge-neg'
+
+function score(sid){
+  const cl=lessons.filter(l=>l.student_id===sid&&l.status!=='scheduled')
+  const done=cl.filter(l=>l.status==='done').length,mc=cl.filter(l=>l.status==='missed_charged').length,m=cl.filter(l=>l.status==='missed').length
+  return{done,mc,m,tot:done+mc+m,score:done+mc+m===0?-1:mc*2+m-done}
+}
+
+function donut(done,missed,mc,size=96){
+  const total=done+missed+mc,cx=size/2,cy=size/2,r=size/2-8,sw=size>60?12:8,circ=2*Math.PI*r
+  if(!total)return`<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#FFE4F0" stroke-width="${sw}"/>${size>60?`<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="11" fill="#D4537E" font-family="system-ui">—</text>`:''}</svg>`
+  const segs=[{v:done,c:'#3B6D11'},{v:missed,c:'#BA7517'},{v:mc,c:'#A32D2D'}]
+  let off=0,paths=''
+  segs.forEach(s=>{if(!s.v)return;const p=s.v/total,dash=p*circ;paths+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.c}" stroke-width="${sw}" stroke-dasharray="${dash.toFixed(2)} ${(circ-dash).toFixed(2)}" stroke-dashoffset="${(-off*circ).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"/>`;off+=p})
+  const pct=Math.round(done/total*100)
+  const labels=size>60?`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="${size>80?13:10}" font-weight="700" fill="#72243E" font-family="system-ui">${pct}%</text><text x="${cx}" y="${cy+9}" text-anchor="middle" font-size="9" fill="#993556" font-family="system-ui">done</text>`:''
+  return`<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#FFE4F0" stroke-width="${sw}"/>${paths}${labels}</svg>`
+}
+
+function weekDates(off){
+  const now=new Date(),md=now.getDay()===0?-6:1-now.getDay(),mon=new Date(now)
+  mon.setDate(now.getDate()+md+off*7)
+  return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d.toISOString().slice(0,10)})
+}
+
+async function reload(){[students,lessons]=await Promise.all([getStudents(),getLessons()])}
+
+// ── Router ────────────────────────────────────────────
+const params=new URLSearchParams(window.location.search)
+const studentParam=params.get('student')
+if(studentParam) initPortal(studentParam)
+else initApp()
+
+// ── PORTAL ────────────────────────────────────────────
+async function initPortal(sid){
+  const app=document.getElementById('app')
+  try{
+    const [student,ls]=await Promise.all([getStudent(sid),getLessonsByStudent(sid)])
+    const now=today()
+    const upcoming=ls.filter(l=>l.date>=now&&l.status==='scheduled').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))
+    const history=ls.filter(l=>l.date<now||l.status!=='scheduled').sort((a,b)=>b.date.localeCompare(a.date))
+    const done=history.filter(l=>l.status==='done').length
+    const missed=history.filter(l=>l.status==='missed').length
+    const absent=history.filter(l=>l.status==='missed_charged').length
+    const tot=done+missed+absent
+    const pD=tot?Math.round(done/tot*100):0,pM=tot?Math.round(missed/tot*100):0,pA=tot?Math.round(absent/tot*100):0
+    const maxC=Math.max(student.credits+done+absent,1)
+    const fill=Math.min(100,Math.round(student.credits/maxC*100))
+    const sStyles={done:{bg:'#EAF3DE',color:'#3B6D11',label:'Completed'},missed:{bg:'#FFF9E6',color:'#BA7517',label:'Not done'},missed_charged:{bg:'#FCEBEB',color:'#A32D2D',label:'Absent'},scheduled:{bg:'#FFE4F0',color:'#D4537E',label:'Scheduled'},trial:{bg:'#F3E8FF',color:'#6B21A8',label:'Free trial'}}
+    app.innerHTML=`<div class="portal">
+      <div class="p-topbar">
+        <div class="p-brand"><div class="p-init">OK</div><div><div class="p-name">Olha Kulinich</div><div class="p-tag">English Lessons</div></div></div>
+        <div style="font-size:11px;color:#D4537E">${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})}</div>
+      </div>
+      <div class="p-hero">
+        <div class="p-greeting">Your lesson space</div>
+        <div class="p-hname">${student.name}</div>
+        <div class="p-hsub">${student.email||'English with Olha'}</div>
+        <div class="p-credits-row">
+          <div class="p-credit-box"><div class="p-cnum" style="${student.credits<0?'color:#A32D2D':''}">${student.credits}</div><div class="p-clbl">Credits available</div><div class="p-cnote">1 credit = 1 lesson</div>${student.last_credit_update?`<div style='font-size:10px;color:#D4537E;margin-top:4px'>Last topped up: ${fmtDT(student.last_credit_update)}</div>`:''}<div class="p-cbar"><div class="p-cfill" style="width:${fill}%"></div></div></div>
+          <div class="p-mini"><div class="p-mnum" style="color:#3B6D11">${done}</div><div class="p-mlbl">Completed<br>lessons</div></div>
+          <div class="p-mini"><div class="p-mnum" style="color:#D4537E">${upcoming.length}</div><div class="p-mlbl">Upcoming<br>lessons</div></div>
+        </div>
+      </div>
+      <div class="p-body">
+        ${tot>0?`<div class="p-stitle">Your lesson breakdown</div>
+        <div class="p-sgrid">
+          <div>${donut(done,missed,absent,108)}</div>
+          <div>
+            <div class="p-brow"><div class="p-blabels"><span style="color:#3B6D11;font-weight:600">Completed</span><span style="color:#3B6D11;font-weight:700">${pD}% — ${done} lesson${done!==1?'s':''}</span></div><div class="p-btrack"><div class="p-bfill" style="width:${pD}%;background:#3B6D11"></div></div></div>
+            <div class="p-brow"><div class="p-blabels"><span style="color:#BA7517;font-weight:600">Not done</span><span style="color:#BA7517;font-weight:700">${pM}% — ${missed} lesson${missed!==1?'s':''}</span></div><div class="p-btrack"><div class="p-bfill" style="width:${pM}%;background:#BA7517"></div></div></div>
+            <div class="p-brow" style="margin-bottom:0"><div class="p-blabels"><span style="color:#A32D2D;font-weight:600">Absent</span><span style="color:#A32D2D;font-weight:700">${pA}% — ${absent} lesson${absent!==1?'s':''}</span></div><div class="p-btrack"><div class="p-bfill" style="width:${pA}%;background:#A32D2D"></div></div></div>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px solid #FFE4F0;font-size:11px;color:#993556">${tot} lesson${tot!==1?'s':''} total recorded</div>
+          </div>
+        </div>`:''}
+        <div class="p-stitle">Upcoming lessons</div>
+        ${upcoming.length?`<div class="p-lcard">${upcoming.map(l=>`<div class="p-lrow"><div><div class="p-ldate">${fmtLong(l.date)}</div><div class="p-ltime">at ${l.time.slice(0,5)}</div></div>${student.meet_link?`<a href="${student.meet_link}" class="p-join" target="_blank">Join lesson &rarr;</a>`:''}</div>`).join('')}</div>`:`<div class="p-empty">No lessons scheduled yet — your teacher will update this soon.</div>`}
+        ${history.length?`<div class="p-stitle" style="margin-top:6px">Lesson history</div><div class="p-lcard">${history.map(l=>{const s=sStyles[l.status]||sStyles.scheduled;return`<div class="p-hrow"><div><div style="font-size:13px;font-weight:600;color:#72243E">${fmtLong(l.date)}</div><div style="font-size:11px;color:#D4537E">at ${l.time.slice(0,5)}</div></div><span class="pill" style="background:${s.bg};color:${s.color}">${s.label}</span></div>`}).join('')}</div>`:''}
+      </div>
+      <div class="p-footer">Olha Kulinich — English Lessons — &copy; ${new Date().getFullYear()}</div>
+    </div>`
+  }catch{
+    app.innerHTML=`<div style="min-height:100vh;background:#FFF0F5;display:flex;align-items:center;justify-content:center"><div style="text-align:center;padding:40px"><div style="font-size:48px;margin-bottom:16px">🌸</div><div style="font-size:16px;font-weight:600;color:#72243E">Page not found</div><div style="font-size:13px;color:#D4537E;margin-top:8px">Please ask your teacher for an updated link.</div></div></div>`
+  }
+}
+
+// ── APP ───────────────────────────────────────────────
+function initApp(){
+  showLogin()
+}
+
+function showLogin(){
+  var app=document.getElementById('app')
+  var html='<div style="min-height:100vh;background:linear-gradient(135deg,#FFE4F0,#FFD6E7,#FFBDD8);display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif">'
+  html+='<div style="background:#fff;border-radius:24px;padding:40px 36px;width:340px;max-width:90vw;border:1px solid #FFB3D1;text-align:center;box-shadow:0 8px 40px rgba(212,83,126,.15)">'
+  html+='<div style="font-size:40px;margin-bottom:16px">&#127800;</div>'
+  html+='<div style="font-size:18px;font-weight:700;color:#72243E;margin-bottom:4px">Olha Kulinich</div>'
+  html+='<div style="font-size:11px;color:#D4537E;text-transform:uppercase;letter-spacing:.1em;margin-bottom:28px">English Lessons</div>'
+  html+='<input type="password" id="pwd-input" placeholder="Enter password" style="width:100%;padding:10px 14px;border:1px solid #FFB3D1;border-radius:20px;font-size:14px;text-align:center;margin-bottom:12px;outline:none">'
+  html+='<button id="pwd-btn" style="width:100%;padding:11px;background:#D4537E;color:#fff;border:none;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer">&#10084; Enter</button>'
+  html+='<div id="pwd-error" style="color:#A32D2D;font-size:12px;margin-top:10px;display:none">Wrong password, try again.</div>'
+  html+='</div></div>'
+  app.innerHTML=html
+  var inp=document.getElementById('pwd-input')
+  var btn=document.getElementById('pwd-btn')
+  btn.addEventListener('click',checkPassword)
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')checkPassword()})
+  inp.focus()
+}
+
+function checkPassword(){
+  var inp=document.getElementById('pwd-input')
+  var err=document.getElementById('pwd-error')
+  if(!inp)return
+  if(inp.value===APP_PASSWORD){
+    launchApp()
+  } else {
+    if(err)err.style.display='block'
+    inp.value=''
+    inp.focus()
+  }
+}
+
+function launchApp(){
+  var app=document.getElementById('app')
+  app.innerHTML=buildShell()
+  reload().then(function(){renderDashboard()}).catch(function(e){
+    app.innerHTML='<div style="padding:40px;text-align:center;color:#D4537E">Could not connect to database.<br><small>'+e.message+'</small></div>'
+  })
+}
+
+function buildShell(){return`
+<div class="app">
+<div class="sidebar">
+  <div class="logo"><div class="logo-title">Olha Kulinich</div><div class="logo-sub">English Lessons</div></div>
+  <div style="padding:6px 0;flex:1">
+    <div class="nav-item active" onclick="navTo(this,'dashboard')">&#10084; Dashboard</div>
+    <div class="nav-item" onclick="navTo(this,'students')">&#10084; Students</div>
+    <div class="nav-item" onclick="navTo(this,'calendar')">&#10084; Calendar</div>
+    <div class="nav-item" onclick="navTo(this,'lessons')">&#10084; Lessons</div>
+  </div>
+  <div style="padding:10px;border-top:1px solid #FFB3D1;text-align:center;color:#FFB3D1;font-size:16px">&#10084; &#10084; &#10084;</div>
+</div>
+<div class="main">
+  <div class="page active" id="page-dashboard"></div>
+  <div class="page" id="page-students"></div>
+  <div class="page" id="page-calendar"></div>
+  <div class="page" id="page-lessons"></div>
+</div>
+</div>
+<div class="modal-bg" id="modal-add-student"><div class="modal">
+  <div class="modal-title">&#10084; Add student</div>
+  <label>Full name</label><input id="s-name" placeholder="e.g. Anna Smith">
+  <label>Email</label><input id="s-email" type="email" placeholder="anna@email.com">
+  <label>Google Meet / Zoom link</label><input id="s-meet" placeholder="https://meet.google.com/...">
+  <label>Starting credits</label><input id="s-credits" type="number" value="0">
+  <div style="margin-top:10px;display:flex;align-items:center;gap:8px"><input type="checkbox" id="s-trial" style="width:auto;border-radius:4px"><label style="margin:0;font-size:12px;color:#6B21A8">&#9733; Offer a free trial lesson (no credits needed)</label></div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('modal-add-student')">Cancel</button><button class="btn btn-primary" onclick="handleAddStudent()">&#10084; Save</button></div>
+</div></div>
+<div class="modal-bg" id="modal-add-lesson"><div class="modal">
+  <div class="modal-title">&#10084; New lesson</div>
+  <div class="toggle-row"><div class="toggle-opt active" id="tg-single" onclick="switchMode('single')">Single lesson</div><div class="toggle-opt" id="tg-serie" onclick="switchMode('serie')">Lesson series</div></div>
+  <label>Student</label><select id="l-student"><option value="">Select student...</option></select>
+  <div id="mode-single"><label>Date</label><input id="l-date" type="date"><label>Time</label><input id="l-time" type="time" value="10:00"></div>
+  <div id="mode-serie" style="display:none"><div class="serie-box">
+    <label>Start date</label><input id="s-start" type="date">
+    <label>Number of weeks</label><input id="s-weeks" type="number" min="1" max="52" value="10" style="width:100px">
+    <label>Days of the week</label>
+    <div class="day-checkboxes" id="day-checks">
+      <div class="day-cb" data-day="1" onclick="toggleDay(this)">Mon</div><div class="day-cb" data-day="2" onclick="toggleDay(this)">Tue</div><div class="day-cb" data-day="3" onclick="toggleDay(this)">Wed</div><div class="day-cb" data-day="4" onclick="toggleDay(this)">Thu</div><div class="day-cb" data-day="5" onclick="toggleDay(this)">Fri</div><div class="day-cb" data-day="6" onclick="toggleDay(this)">Sat</div><div class="day-cb" data-day="0" onclick="toggleDay(this)">Sun</div>
+    </div>
+    <div id="time-slots" style="margin-top:10px"></div>
+    <div style="margin-top:8px;font-size:11px;color:#D4537E" id="serie-preview"></div>
+  </div></div>
+  <div style="margin-top:12px;padding:10px;background:#FFF5F9;border-radius:10px;border:1px solid #FFE4F0"><div style="font-size:11px;color:#993556">&#10084; Credits are deducted only when you mark a lesson as completed or student absent.</div></div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('modal-add-lesson')">Cancel</button><button class="btn btn-primary" onclick="handleAddLesson()">&#10084; Schedule</button></div>
+</div></div>
+<div class="modal-bg" id="modal-status"><div class="modal" style="width:400px">
+  <div class="modal-title" id="modal-status-title">&#10084; Update lesson</div>
+  <div>
+    <div class="status-option" onclick="handleSetStatus('done')"><div class="so-dot" style="background:#3B6D11"></div><div><div class="so-title" style="color:#3B6D11">&#10003; Lesson completed</div><div class="so-desc">Lesson took place — 1 credit deducted</div></div></div>
+    <div class="status-option" onclick="handleSetStatus('missed')"><div class="so-dot" style="background:#BA7517"></div><div><div class="so-title" style="color:#BA7517">&#9888; Not done</div><div class="so-desc">Lesson skipped — no credit deducted</div></div></div>
+    <div class="status-option" onclick="handleSetStatus('missed_charged')"><div class="so-dot" style="background:#A32D2D"></div><div><div class="so-title" style="color:#A32D2D">&#10005; Student absent</div><div class="so-desc">Did not show up — 1 credit deducted</div></div></div>
+    <div class="status-option" onclick="handleSetStatus('trial')"><div class="so-dot" style="background:#6B21A8"></div><div><div class="so-title" style="color:#6B21A8">&#9733; Free trial lesson</div><div class="so-desc">Trial lesson completed — no credit deducted</div></div></div>
+    <div class="status-option" onclick="handleSetStatus('scheduled')"><div class="so-dot" style="background:#D4537E"></div><div><div class="so-title" style="color:#D4537E">&#10084; Reset to scheduled</div><div class="so-desc">Undo status and restore credit if deducted</div></div></div>
+  </div>
+  <div style="border-top:1px solid #FFE4F0;padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+    <button class="btn btn-danger btn-sm" onclick="handleDeleteLesson()">Delete lesson</button>
+    <button class="btn" onclick="closeModal('modal-status')">Close</button>
+  </div>
+</div></div>
+<div class="modal-bg" id="modal-credits"><div class="modal" style="width:360px">
+  <div class="modal-title" id="modal-credits-title">&#10084; Add credits</div>
+  <label>Credits to add</label><input id="cr-amount" type="number" value="5">
+  <div style="margin-top:8px;font-size:11px;color:#993556;padding:8px;background:#FFF5F9;border-radius:8px">&#10084; You can enter a negative number to reduce credits (e.g. -2 to correct an overpayment).</div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('modal-credits')">Cancel</button><button class="btn btn-primary" onclick="handleAddCredits()">&#10084; Add</button></div>
+</div></div>
+<div class="modal-bg" id="modal-link"><div class="modal" style="width:420px">
+  <div class="modal-title">&#10084; Student portal link</div>
+  <p style="font-size:12px;color:#993556;margin-bottom:10px">Send this link to your student — they can view credits, stats and lessons.</p>
+  <div style="background:#FFF5F9;border:1px solid #FFD6E7;border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px">
+    <span id="link-url" style="font-size:10px;color:#993556;font-family:monospace;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+    <button class="btn btn-sm" onclick="copyLink()">Copy</button>
+  </div>
+  <div style="margin-top:12px;padding:12px;background:#FFF5F9;border-radius:12px;border:1px solid #FFD6E7" id="link-preview"></div>
+  <div class="modal-footer"><button class="btn btn-primary" onclick="closeModal('modal-link')">Close</button></div>
+</div></div>
+<div class="modal-bg" id="modal-detail"><div class="modal" style="width:540px;max-height:88vh;overflow-y:auto">
+  <div id="detail-content"></div>
+  <div class="modal-footer"><button class="btn btn-primary" onclick="closeModal('modal-detail')">Close</button></div>
+</div></div>`
+}
+
+function navTo(el,page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'))
+  document.getElementById('page-'+page).classList.add('active')
+  el.classList.add('active')
+  ;({dashboard:renderDashboard,students:renderStudents,calendar:renderCalendar,lessons:renderLessons})[page]?.()
+}
+function openModal(id){if(id==='modal-add-lesson')prepLesson();document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+
+function switchMode(m){
+  mode=m
+  document.getElementById('tg-single').classList.toggle('active',m==='single')
+  document.getElementById('tg-serie').classList.toggle('active',m==='serie')
+  document.getElementById('mode-single').style.display=m==='single'?'':'none'
+  document.getElementById('mode-serie').style.display=m==='serie'?'':'none'
+}
+
+function toggleDay(el){
+  const d=parseInt(el.dataset.day)
+  if(days.includes(d)){days=days.filter(x=>x!==d);el.classList.remove('checked')}else{days.push(d);el.classList.add('checked')}
+  renderTimeSlots();updateSeriePreview()
+}
+
+function renderTimeSlots(){
+  const box=document.getElementById('time-slots')
+  const sorted=[...days].sort((a,b)=>a===0?7-b:b===0?a-7:a-b)
+  box.innerHTML=sorted.map(d=>`<div style="display:flex;align-items:center;gap:8px;margin-top:6px"><span style="font-size:12px;color:#72243E;font-weight:500;min-width:36px">${DAYS[d]}</span><input type="time" id="td-${d}" value="10:00" style="width:110px"></div>`).join('')
+  box.querySelectorAll('input').forEach(i=>i.addEventListener('change',updateSeriePreview))
+}
+
+function updateSeriePreview(){
+  const w=parseInt(document.getElementById('s-weeks')?.value)||0,t=days.length*w
+  document.getElementById('serie-preview').textContent=t>0?`${t} lessons will be scheduled (${days.length} days × ${w} weeks)`:''
+}
+
+function prepLesson(){
+  const sel=document.getElementById('l-student')
+  sel.innerHTML='<option value="">Select student...</option>'
+  students.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.name;sel.appendChild(o)})
+  switchMode('single');days=[]
+  document.querySelectorAll('.day-cb').forEach(d=>d.classList.remove('checked'))
+  document.getElementById('time-slots').innerHTML=''
+  document.getElementById('serie-preview').textContent=''
+}
+
+async function handleAddStudent(){
+  const name=document.getElementById('s-name').value.trim(),email=document.getElementById('s-email').value.trim()
+  const meet_link=document.getElementById('s-meet').value.trim(),credits=parseInt(document.getElementById('s-credits').value)||0
+  if(!name)return alert('Please enter a name!')
+  try{await createStudent({name,email,meet_link,credits});await reload();closeModal('modal-add-student');['s-name','s-email','s-meet'].forEach(i=>document.getElementById(i).value='');document.getElementById('s-credits').value='0';renderStudents();renderDashboard()}
+  catch(e){alert('Error: '+e.message)}
+}
+
+async function handleDeleteStudent(id){
+  if(!confirm('Delete this student and all their lessons?'))return
+  try{await deleteStudent(id);await reload();renderStudents();renderDashboard()}catch(e){alert('Error: '+e.message)}
+}
+
+async function handleAddLesson(){
+  const sid=document.getElementById('l-student').value
+  if(!sid)return alert('Please select a student!')
+  try{
+    if(mode==='single'){
+      const date=document.getElementById('l-date').value,time=document.getElementById('l-time').value
+      if(!date||!time)return alert('Please fill in date and time!')
+      await createLesson({student_id:sid,date,time,status:'scheduled'})
+    }else{
+      const startStr=document.getElementById('s-start').value,weeks=parseInt(document.getElementById('s-weeks').value)||0
+      if(!startStr||!days.length||weeks<1)return alert('Please fill in all series fields!')
+      const dt={};let ok=true
+      days.forEach(d=>{const inp=document.getElementById('td-'+d);if(!inp||!inp.value)ok=false;else dt[d]=inp.value})
+      if(!ok)return alert('Please set a time for each day!')
+      const rows=[],start=new Date(startStr+'T12:00:00')
+      for(let w=0;w<weeks;w++)days.forEach(day=>{const d=new Date(start);d.setDate(d.getDate()+w*7+(day-d.getDay()+7)%7);rows.push({student_id:sid,date:d.toISOString().slice(0,10),time:dt[day],status:'scheduled'})})
+      await createLessons(rows)
+    }
+    await reload();closeModal('modal-add-lesson');renderDashboard();renderCalendar();renderLessons();renderStudents()
+  }catch(e){alert('Error: '+e.message)}
+}
+
+function openStatusModal(lid){
+  lessonId=lid
+  const l=lessons.find(x=>x.id===lid),s=students.find(x=>x.id===l?.student_id),st=STATUS[l?.status]||STATUS.scheduled
+  document.getElementById('modal-status-title').innerHTML=`&#10084; ${s?.name||''} &mdash; ${fmt(l?.date)} at ${l?.time?.slice(0,5)} <span style="padding:2px 8px;border-radius:20px;font-size:10px;background:${st.bg};color:${st.color};margin-left:6px">${st.label}</span>`
+  openModal('modal-status')
+}
+
+async function handleSetStatus(ns){
+  const l=lessons.find(x=>x.id===lessonId);if(!l)return
+  const s=students.find(x=>x.id===l.student_id);if(!s)return
+
+  // trial never charges credits — treat like 'missed' for credit logic
+  const wasC=l.status==='done'||l.status==='missed_charged'
+  const willC=ns==='done'||ns==='missed_charged'
+  // trial: no charge in either direction
+  const wasTrial=l.status==='trial'
+  const willTrial=ns==='trial'
+
+  let delta=0
+  if(wasC&&!willC&&!willTrial) delta=1      // was charged, now not → restore
+  if(!wasC&&!wasTrial&&willC) delta=-1      // wasn't charged, now is → deduct
+
+  // Alert if student is already in debt when charging
+  if(willC && s.credits<=0){
+    const debt=Math.abs(s.credits)
+    const msg=s.credits<0
+      ? `⚠️ ${s.name} already has a debt of ${debt} credit${debt!==1?'s':''}. This lesson will increase the debt to ${debt+1}.`
+      : `⚠️ ${s.name} has 0 credits. This lesson will put them -1 in debt.`
+    if(!confirm(msg+'
+
+Continue anyway?'))return
+  }
+
+  try{await updateLessonStatus(l.id,ns,l.student_id,delta);await reload();closeModal('modal-status');renderDashboard();renderCalendar();renderLessons();renderStudents();if(viewId)openDetail(viewId)}
+  catch(e){alert('Error: '+e.message)}
+}
+
+async function handleDeleteLesson(){
+  if(!confirm('Delete this lesson?'))return
+  const l=lessons.find(x=>x.id===lessonId);if(!l)return
+  const delta=(l.status==='done'||l.status==='missed_charged')?1:0
+  try{if(delta)await updateLessonStatus(l.id,'scheduled',l.student_id,delta);await deleteLesson(l.id);await reload();closeModal('modal-status');renderDashboard();renderCalendar();renderLessons();renderStudents()}
+  catch(e){alert('Error: '+e.message)}
+}
+
+function openCreditsModal(id){
+  creditsId=id;const s=students.find(x=>x.id===id)
+  document.getElementById('modal-credits-title').textContent=`Add credits — ${s.name} (current: ${s.credits})`
+  document.getElementById('cr-amount').value='5';openModal('modal-credits')
+}
+
+async function handleAddCredits(){
+  const amt=parseInt(document.getElementById('cr-amount').value)||0
+  if(amt<=0)return alert('Please enter a valid number!')
+  const s=students.find(x=>x.id===creditsId)
+  try{await updateStudentCredits(s.id,s.credits+amt);await reload();closeModal('modal-credits');renderStudents();renderDashboard();if(viewId)openDetail(viewId)}
+  catch(e){alert('Error: '+e.message)}
+}
+
+function showLinkModal(id){
+  const s=students.find(x=>x.id===id)
+  const url='https://brixhildotoli-cyber.github.io/olha-english/english_teacher_crm_v9.html?student='+id
+  document.getElementById('link-url').textContent=url
+  const now=today(),upcoming=lessons.filter(l=>l.student_id===id&&l.date>=now&&l.status==='scheduled').slice(0,3)
+  const bc=badgeCls(s.credits),bC={'badge-ok':'background:#FFE4F0;color:#72243E','badge-low':'background:#FAEEDA;color:#854F0B','badge-zero':'background:#FCEBEB;color:#A32D2D'}
+  document.getElementById('link-preview').innerHTML=`<div style="font-size:11px;color:#D4537E;font-weight:600;margin-bottom:8px">&#10084; Preview</div><div style="font-size:13px;font-weight:600;color:#111;margin-bottom:4px">${s.name}</div><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:11px;color:#6B7280">Credits:</span><span style="padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;${bC[bc]||''}">${s.credits}</span></div>${upcoming.map(l=>`<div style="font-size:11px;color:#72243E;padding:5px 0;border-bottom:1px solid #FFE4F0;font-weight:500">${fmt(l.date)} at ${l.time?.slice(0,5)}</div>`).join('')||'<div style="font-size:11px;color:#D4537E">No upcoming lessons</div>'}`
+  openModal('modal-link')
+}
+
+function copyLink(){
+  const t=document.getElementById('link-url').textContent
+  navigator.clipboard.writeText(t).catch(()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a)})
+  alert('Link copied!')
+}
+
+function openDetail(id){
+  viewId=id;const s=students.find(x=>x.id===id);if(!s)return
+  const now=today(),all=lessons.filter(l=>l.student_id===id).sort((a,b)=>b.date.localeCompare(a.date))
+  const upcoming=all.filter(l=>l.date>=now&&l.status==='scheduled'),history=all.filter(l=>l.date<now||l.status!=='scheduled')
+  const sc=score(id)
+  document.getElementById('detail-content').innerHTML=`
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+      <div class="avatar" style="width:44px;height:44px;font-size:16px">${s.name.slice(0,2).toUpperCase()}</div>
+      <div><div style="font-size:16px;font-weight:700;color:#72243E">${s.name}</div><div style="font-size:12px;color:#993556">${s.email||''}</div></div>
+      <div style="margin-left:auto;display:flex;gap:8px"><button class="btn btn-sm" onclick="openCreditsModal('${s.id}')">&#10084; Credits</button><button class="btn btn-sm" onclick="showLinkModal('${s.id}')">&#10084; Link</button></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px">
+      <div class="stat-card"><div class="stat-label">Credits</div><div class="stat-value" style="${s.credits<0?'color:#A32D2D':''}">${s.credits}</div>${s.last_credit_update?`<div style="font-size:9px;color:#D4537E;margin-top:4px">topped up ${fmtDT(s.last_credit_update)}</div>`:''}</div>
+      <div class="stat-card"><div class="stat-label" style="color:#3B6D11">Completed</div><div class="stat-value" style="color:#3B6D11">${sc.done}</div></div>
+      <div class="stat-card"><div class="stat-label" style="color:#BA7517">Not done</div><div class="stat-value" style="color:#BA7517">${sc.m}</div></div>
+      <div class="stat-card"><div class="stat-label" style="color:#A32D2D">Absences</div><div class="stat-value" style="color:#A32D2D">${sc.mc}</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:16px;padding:14px;background:#FFF5F9;border-radius:12px;border:1px solid #FFE4F0">
+      ${donut(sc.done,sc.m,sc.mc,100)}
+      <div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#72243E;margin-bottom:6px"><div style="width:9px;height:9px;border-radius:50%;background:#3B6D11"></div>Completed — ${sc.tot>0?Math.round(sc.done/sc.tot*100):0}%</div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#72243E;margin-bottom:6px"><div style="width:9px;height:9px;border-radius:50%;background:#BA7517"></div>Not done — ${sc.tot>0?Math.round(sc.m/sc.tot*100):0}%</div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#72243E"><div style="width:9px;height:9px;border-radius:50%;background:#A32D2D"></div>Absences — ${sc.tot>0?Math.round(sc.mc/sc.tot*100):0}%</div>
+        ${sc.tot===0?'<div style="font-size:11px;color:#D4537E;margin-top:8px">No lessons recorded yet</div>':''}
+      </div>
+    </div>
+    ${upcoming.length?`<div style="font-size:12px;font-weight:600;color:#72243E;margin-bottom:8px">&#10084; Upcoming (${upcoming.length})</div><div style="background:#FFF5F9;border-radius:10px;border:1px solid #FFE4F0;margin-bottom:14px;overflow:hidden">${upcoming.map(l=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #FFE4F0;font-size:12px"><div><span style="font-weight:600;color:#72243E">${fmt(l.date)}</span> <span style="color:#D4537E">at ${l.time?.slice(0,5)}</span></div><button class="btn btn-sm" onclick="openStatusModal('${l.id}')">Update</button></div>`).join('')}</div>`:''}
+    ${history.length?`<div style="font-size:12px;font-weight:600;color:#72243E;margin-bottom:8px">History</div><div style="background:#FFF5F9;border-radius:10px;border:1px solid #FFE4F0;overflow:hidden">${history.map(l=>{const st=STATUS[l.status]||STATUS.scheduled;return`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #FFE4F0;font-size:12px"><div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:${st.color}"></div><div><span style="font-weight:600;color:#72243E">${fmt(l.date)}</span> <span style="color:#993556">at ${l.time?.slice(0,5)}</span></div></div><div style="display:flex;align-items:center;gap:8px"><span style="padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;background:${st.bg};color:${st.color}">${st.label}</span><button class="btn btn-sm" onclick="openStatusModal('${l.id}')">Edit</button></div></div>`}).join('')}</div>`:''}
+  `
+  openModal('modal-detail')
+}
+
+function renderDashboard(){
+  const el=document.getElementById('page-dashboard');if(!el)return
+  const tm=new Date().toISOString().slice(0,7),now=today()
+  const upcoming=lessons.filter(l=>l.date>=now&&l.status==='scheduled').slice(0,4)
+  const low=students.filter(s=>s.credits<=2)
+  const ranked=[...students].map(s=>{const sc=score(s.id);return{s,sc}}).filter(x=>x.sc.tot>0).sort((a,b)=>b.sc.score-a.sc.score)
+  const totD=lessons.filter(l=>l.status==='done').length,totM=lessons.filter(l=>l.status==='missed').length,totMC=lessons.filter(l=>l.status==='missed_charged').length
+  el.innerHTML=`<div class="page-title">&#10084; Dashboard</div>
+  <div class="grid-3">
+    <div class="stat-card"><div style="font-size:18px">&#10084;</div><div class="stat-label">Students</div><div class="stat-value">${students.length}</div></div>
+    <div class="stat-card"><div style="font-size:18px">&#10084;</div><div class="stat-label">Completed this month</div><div class="stat-value">${lessons.filter(l=>l.date.startsWith(tm)&&l.status==='done').length}</div></div>
+    <div class="stat-card"><div style="font-size:18px">&#10084;</div><div class="stat-label">Total credits</div><div class="stat-value">${students.reduce((s,c)=>s+c.credits,0)}</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card" style="margin:0">
+      <div style="font-size:13px;font-weight:600;color:#72243E;margin-bottom:12px">&#10084; Overall statistics</div>
+      <div style="display:flex;align-items:center;gap:16px">${donut(totD,totM,totMC,88)}
+        <div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#72243E;margin-bottom:6px"><div style="width:9px;height:9px;border-radius:50%;background:#3B6D11"></div>Completed &mdash; <strong>${totD}</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#72243E;margin-bottom:6px"><div style="width:9px;height:9px;border-radius:50%;background:#BA7517"></div>Not done &mdash; <strong>${totM}</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#72243E"><div style="width:9px;height:9px;border-radius:50%;background:#A32D2D"></div>Absences &mdash; <strong>${totMC}</strong></div>
+          ${totD+totM+totMC===0?'<div style="font-size:11px;color:#D4537E;margin-top:6px">No lessons recorded yet</div>':''}
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin:0">
+      <div style="font-size:13px;font-weight:600;color:#72243E;margin-bottom:10px">&#10084; Student ranking</div>
+      ${ranked.length===0?'<div style="font-size:12px;color:#D4537E;padding:8px 0">No data yet — update some lesson statuses first!</div>':ranked.map((x,i)=>{
+        const{sc,s}=x,tot=sc.tot||1,pD=Math.round(sc.done/tot*100),pM=Math.round(sc.m/tot*100),pMC=Math.round(sc.mc/tot*100)
+        const medal=i===0?'🥴':i===ranked.length-1&&ranked.length>1?'🌟':''
+        return`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #FFE4F0"><div style="font-size:13px;font-weight:700;color:#FFB3D1;min-width:20px;text-align:center">${i+1}</div><div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:600;color:#72243E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${medal} ${s.name.split(' ')[0]}</span><span style="font-size:10px;color:#993556;flex-shrink:0;margin-left:6px">${pD}% done</span></div><div style="height:8px;background:#FFE4F0;border-radius:4px;overflow:hidden;display:flex"><div style="width:${pD}%;background:#3B6D11;height:100%;border-radius:4px 0 0 4px"></div><div style="width:${pM}%;background:#BA7517;height:100%"></div><div style="width:${pMC}%;background:#A32D2D;height:100%;border-radius:0 4px 4px 0"></div></div></div><button class="btn btn-sm" style="margin-left:8px;flex-shrink:0" onclick="openDetail('${s.id}')">View</button></div>`}).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-header"><span style="font-size:13px;font-weight:600;color:#72243E">&#10084; Upcoming lessons</span><button class="btn btn-primary btn-sm" onclick="openModal('modal-add-lesson')">+ New</button></div>
+    ${upcoming.length?upcoming.map(l=>{const s=students.find(x=>x.id===l.student_id);return`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #FFE4F0"><div class="flex"><div class="avatar">${(s?.name||'?').slice(0,2).toUpperCase()}</div><div><div style="font-size:12px;font-weight:600;color:#72243E">${s?.name||'?'}</div><div style="font-size:11px;color:#D4537E">${fmt(l.date)} &middot; ${l.time?.slice(0,5)}</div></div></div><button class="btn btn-sm" onclick="openStatusModal('${l.id}')">Update</button></div>`}).join(''):'<div class="empty">No lessons scheduled</div>'}
+  </div>
+  ${low.length?`<div class="card"><div class="section-header"><span style="font-size:13px;font-weight:600;color:#72243E">&#10084; Low credits</span></div>${low.map(s=>{const b=badgeCls(s.credits);return`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #FFE4F0"><span style="font-size:12px;font-weight:600;color:#72243E">${s.name}</span><div style="display:flex;align-items:center;gap:8px"><span class="badge ${b}">${s.credits} cr</span><button class="btn btn-sm btn-primary" onclick="openCreditsModal('${s.id}')">Top up</button></div></div>`}).join('')}</div>`:''}`
+}
+
+function renderStudents(){
+  const el=document.getElementById('page-students');if(!el)return
+  el.innerHTML=`<div class="section-header"><div class="page-title" style="margin:0">&#10084; Students</div><button class="btn btn-primary" onclick="openModal('modal-add-student')">&#10084; Add student</button></div>
+  <div class="card" style="padding:0;overflow:hidden"><table class="table"><thead><tr><th>Name</th><th>Credits</th><th>Completed</th><th>Scheduled</th><th>Chart</th><th>Actions</th></tr></thead>
+  <tbody>${students.length?students.map(s=>{const b=badgeCls(s.credits),sc=score(s.id),mini=donut(sc.done,sc.m,sc.mc,44);return`<tr><td><div class="flex"><div class="avatar">${s.name.slice(0,2).toUpperCase()}</div><span style="font-weight:600;color:#72243E;cursor:pointer;text-decoration:underline dotted" onclick="openDetail('${s.id}')">${s.name}</span></div></td><td><span class="badge ${b}">${s.credits}</span></td><td><span style="font-size:12px;color:#3B6D11;font-weight:600">&#10003; ${sc.done}</span></td><td><span style="font-size:12px;color:#D4537E;font-weight:600">&#10084; ${lessons.filter(l=>l.student_id===s.id&&l.status==='scheduled').length}</span></td><td><div style="cursor:pointer" onclick="openDetail('${s.id}')">${mini}</div></td><td><div style="display:flex;gap:4px"><button class="btn btn-sm" onclick="openDetail('${s.id}')">View</button><button class="btn btn-sm" onclick="openCreditsModal('${s.id}')">+ Credits</button><button class="btn btn-sm" onclick="showLinkModal('${s.id}')">&#10084; Link</button><button class="btn btn-sm btn-danger" onclick="handleDeleteStudent('${s.id}')">&#10005;</button></div></td></tr>`}).join(''):`<tr><td colspan="6" class="empty">&#10084; No students yet</td></tr>`}</tbody></table></div>`
+}
+
+function renderCalendar(){
+  const el=document.getElementById('page-calendar');if(!el)return
+  const dates=weekDates(calOff),todayStr=today()
+  const DL=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const s=new Date(dates[0]+'T12:00:00'),e=new Date(dates[6]+'T12:00:00')
+  const wl=`${s.getDate()} ${M[s.getMonth()]} &mdash; ${e.getDate()} ${M[e.getMonth()]} ${e.getFullYear()}`
+  let hdr=`<div class="wg-header"></div>`
+  dates.forEach((d,i)=>{const dt=new Date(d+'T12:00:00');const isT=d===todayStr;hdr+=`<div class="wg-header${isT?' today-col':''}" style="${isT?'color:#D4537E':''}"><div>${DL[i]}</div><div style="font-size:10px">${dt.getDate()}/${dt.getMonth()+1}</div></div>`})
+  let body=''
+  HOURS.forEach(h=>{
+    body+=`<div class="wg-hour-label">${String(h).padStart(2,'0')}:00</div>`
+    dates.forEach(d=>{const isT=d===todayStr;const cell=lessons.filter(l=>l.date===d&&parseInt(l.time)===h);const inner=cell.map(l=>{const s=students.find(x=>x.id===l.student_id);const st=STATUS[l.status]||STATUS.scheduled;return`<div class="wg-lesson ${l.status||'scheduled'}" onclick="openStatusModal('${l.id}')" title="${s?.name||''} — ${st.label}"><div style="font-size:10px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s?.name.split(' ')[0]||'?'}</div><div style="font-size:9px;opacity:.8">${l.time?.slice(0,5)}</div></div>`}).join('');body+=`<div class="wg-cell${isT?' today-col':''}">${inner}</div>`})
+  })
+  el.innerHTML=`<div class="section-header"><div class="page-title" style="margin:0">&#10084; Calendar</div><button class="btn btn-primary btn-sm" onclick="openModal('modal-add-lesson')">&#10084; New lesson</button></div>
+  <div class="week-nav"><button class="week-nav-btn" onclick="calOff--;renderCalendar()">&larr; Prev</button><span class="week-label">&#10084; ${wl}</span><button class="week-nav-btn" onclick="calOff++;renderCalendar()">Next &rarr;</button><button class="week-nav-btn" onclick="calOff=0;renderCalendar()">Today</button></div>
+  <div style="display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#72243E"><div style="width:10px;height:10px;border-radius:2px;background:#FFE4F0;border-left:3px solid #D4537E"></div> Scheduled</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#27500A"><div style="width:10px;height:10px;border-radius:2px;background:#EAF3DE;border-left:3px solid #3B6D11"></div> Completed</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#633806"><div style="width:10px;height:10px;border-radius:2px;background:#FFF9E6;border-left:3px solid #BA7517"></div> Not done</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#791F1F"><div style="width:10px;height:10px;border-radius:2px;background:#FCEBEB;border-left:3px solid #A32D2D"></div> Absent</div>
+  </div>
+  <div class="card" style="padding:8px;overflow-x:auto"><div class="week-grid" style="min-width:520px">${hdr}${body}</div><div style="font-size:10px;color:#D4537E;margin-top:8px;text-align:center">&#10084; Click on a lesson to update its status</div></div>`
+}
+
+function renderLessons(){
+  const el=document.getElementById('page-lessons');if(!el)return
+  el.innerHTML=`<div class="section-header"><div class="page-title" style="margin:0">&#10084; All lessons</div><button class="btn btn-primary btn-sm" onclick="openModal('modal-add-lesson')">&#10084; New lesson</button></div>
+  <div class="card" style="padding:0;overflow:hidden"><table class="table"><thead><tr><th>Date</th><th>Time</th><th>Student</th><th>Status</th><th></th></tr></thead>
+  <tbody>${lessons.length?lessons.map(l=>{const s=students.find(x=>x.id===l.student_id);const st=STATUS[l.status]||STATUS.scheduled;return`<tr><td style="color:#72243E;font-weight:500">${fmt(l.date)}</td><td style="color:#D4537E;font-weight:500">${l.time?.slice(0,5)}</td><td><div class="flex"><div class="avatar">${(s?.name||'?').slice(0,2).toUpperCase()}</div>${s?.name||'?'}</div></td><td><span style="padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;background:${st.bg};color:${st.color}">${st.label}</span></td><td><button class="btn btn-sm" onclick="openStatusModal('${l.id}')">Update</button></td></tr>`}).join(''):`<tr><td colspan="5" class="empty">&#10084; No lessons yet</td></tr>`}</tbody></table></div>`
+}
+</script>
+</body>
+</html>
